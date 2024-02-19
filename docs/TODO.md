@@ -88,6 +88,7 @@ end
 ```
 
 Decent idea of how bouncing works when the `p.vy` down equals the `p.vy` going up (before, we had a `p.vy*-1.15` multiplier. I think that makes it feel a little awkward): 
+
 ```lua 
 function addobstacle()
   local colors = 1
@@ -111,3 +112,5 @@ function addobstacle()
 end
 
 ```
+
+

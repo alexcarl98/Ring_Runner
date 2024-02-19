@@ -264,7 +264,7 @@ function _update()
     p.isjumping = true
     p.vy = -3
   end
-  
+
   if p.isjumping then
     p.y += p.vy
     if p.rotspeed >= 0 and not(btn(⬅️) or btn(➡️)) then
@@ -273,7 +273,6 @@ function _update()
         p.rotspeed = 0
       end
     end
-
     if btn(⬅️) then
       -- begin orienting yourself the other way
       p.rotspeed -= 3

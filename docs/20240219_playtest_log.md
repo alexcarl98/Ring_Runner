@@ -1,4 +1,4 @@
-# 2-18-24 Entry
+# 2-19-24 Entry
 ## Summary
 *Two Sentences: What your game is. What are your design values. This should be your elevator pitch.*
 
@@ -14,23 +14,20 @@ The player is a donut rolling on a track. While rolling on the ground, the playe
 
 ### Obstacles and Objects
 The player must evade obstacles and survive for as long as possible:
-- **Springs** Jumping on springs with the same color as donuts icing will give the player an extra jump  
-- **NOT YET IMPLEMENTED-Spikes** If you land on a spike, you die. 
-- **NOT YET IMPLEMENTED-Spike wall** running into a spike wall will kill you. 
+- **Springs** Jumping on springs with the same color as donuts icing will give the player an extra jump
+- **Spikes** If you land on a spike, you die. 
 - **NOT YET IMPLEMENTED-Ramps** Rolling down a ramp will speed the player up and give them some air time. 
 - **NOT YET IMPLEMENTED-Platforms** can jump onto platforms with springs. Platforms and ramps go hand in hand.
-  - *Idea*
 - **NOT YET IMPLEMENTED-Coins** Thinking of having coins to help guide the player
 
 ## What Happened During the Playtest
-I decided to change something about the control scheme. Instead of making a jump button, that was separate from the d-pad, I made 'up' the jump button. 
+After some adjustments, I had a friend of mine (who never played it before) try it out with the new controls. It seems like they were able to grasp it fairly well. I also started the game out with a single color donut, rather than the dual colored donut. 
 
 
 ### What was working? 
-I think the moments mid-air still felt pretty fun. I have ofcourse nixxed the original difficulty as springs of a different color no longer kill you. However, I did begin to feel like There was more potential for a universal appeal.
+I think I'm going to stick with the new controls for now. The spikes were also starting to work 
 
 ### What is not working as I intend it (Challenges to be solved?) 
-I'm still not 100% certain about how the controls feel. I do think using a new control scheme helped me play the game from a fresh perspective. I imagine this would be how people just trying out my game for the first time would feel. So I'll need some feedback from my peers who have played it on whether this is more intuitive or not.
 
 
 ### What will I try next? 
@@ -42,4 +39,5 @@ I'm going to have some other people playtest the game.
 
 ## Playtest Picture
 ![playtest_picture](20240218_ring_runner.png)
+
 
