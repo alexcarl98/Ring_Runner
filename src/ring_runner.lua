@@ -24,13 +24,7 @@ screen_speed = 2
 collision_cooldown = 0
 donut_bread = 43
 init_spring_tile = 49
-spike_map = {0, 8, 16, 24, 26, 32}
-normal_map = {
-  one=0, 
-  two=0,
-  three=0,
-  four = 0,
-}
+
 
 
 function addobstacle()
@@ -84,26 +78,63 @@ function main_menu()
   print_layered_text("press ❎ to start", 35, 90, 2)
 end
 
-
-
+spike_map = {0, 8, 16, 24, 26, 32}
+normal_map = {
+  one=0, 
+  two=0,
+  three=0,
+  four = 0,
+}
+show_new_pattern = false
+tmpy = 80
 function _draw()
   cls()
-  map(0,0,map_pattern,0,16,16)
-  map(0,0,map_pattern+128,0,16,16)
   
+  if show_new_pattern then
+    if framecount > 192 then
+     map(normal_map.three,10,map_pattern,tmpy,8,16)
+     map(normal_map.four,10,map_pattern+64,tmpy,8,16)
+     map(normal_map.one,10,map_pattern+128,tmpy,8,16)
+     map(normal_map.two,10,map_pattern+192,tmpy,8,16)
+    else
+     map(normal_map.one,10,map_pattern,tmpy,8,16)
+     map(normal_map.two,10,map_pattern+64,tmpy,8,16)
+     map(normal_map.three,10,map_pattern+128,tmpy,8,16)
+     map(normal_map.four,10,map_pattern+192,tmpy,8,16)
+    end 
+   else
+    -- draw the current map pattern
+    for i=0,2 do 
+      map(normal_map.one,10,map_pattern+(i*128),tmpy,8,16)
+      map(normal_map.two,10,map_pattern+(i*128)+64,tmpy,8,16)
+    end
+   end
   cursor(0,0)
+  -- print(pget(p.x, p.y+17))
+  -- pset(p.x, p.y+17,12)
+  -- local player_cell_x = flr(p.x / 8)+1
+  -- Convert player's y-coordinate from pixels to map cells and check one tile below
+  -- local player_cell_y_below = flr((p.y + 16) / 8)+1
   
   if not game_started then
     spr_r(43,p.x-2,p.y,p.a,2,2)   --:draw()
     spr_r(p.s,p.x,p.y,p.a,2,2)    --:draw()
     main_menu()
   end
+  -- print("game over:",0,20,12)
+  -- print(gameover, 40,20,12)
   
   if not gameover and game_started then
     print("score:"..score,20,0,7)
     if p.combo > 2 then
       print("streak: "..p.combo, 70, 0, 9)
     end
+    -- shx = flr(p.x/8)
+    -- shy = flr((p.y+24)/8)
+    -- print("p.x:"..shx,0,30,7)
+    -- print("p.y:"..shy,0,40,7)
+    -- print("mget():"..mget(shx,shy),0,50,8)
+    
     spr_r(43,p.x-2,p.y,p.a,2,2)    --:draw()
     spr_r(p.s,p.x,p.y,p.a,2,2)    --:draw()
   end
@@ -163,15 +194,13 @@ end
 
 function pixelcollision(obstacle)
   if obstacle.color == 29 then return false end
+  if obstacle.color == 48 then return true end
   if ((obstacle.y == 96) and not p.isjumping) then return false end
-  -- if (not p.isjumping and p.x+8 > obstacle.x+1) then return false end 
   local ob_pix = {x=obstacle.x, y = obstacle.y}
   local obstaclepixelcolor = pget(ob_pix.x, ob_pix.y)
-  -- local obstaclepixelcolor1 = pget(ob_pix.x, ob_pix.y+3)
-		--debugging
+  --debugging
   local matching = 0
   local nonmatching = 0
-  -- local colstrs = {"","",""}
 
   for adder = 0, 7 do
     local colors = {pget(ob_pix.x-1+adder, ob_pix.y-1)}
@@ -181,11 +210,6 @@ function pixelcollision(obstacle)
     end
     
     for i, col in ipairs(colors) do -- corrected iteration over colors
-      -- if col < 10 then
-      --   colstrs[i] = colstrs[i].." 0"..col
-      -- else
-      --   colstrs[i] = colstrs[i].." "..col
-      -- end
       if col ~= 0 and col ~= 4 and col ~=9 then
         if col == obstaclepixelcolor then
           matching = matching + 1 -- corrected increment operation
@@ -195,6 +219,7 @@ function pixelcollision(obstacle)
       end
     end
   end
+
   if (not p.isjumping and p.x+8 > obstacle.x+1 and nonmatching > matching) then 
     collision_cooldown = 12
     return false
@@ -208,7 +233,6 @@ function pixelcollision(obstacle)
   end
   if matching > nonmatching then
     obstacle.bouncing = true
-
     if p.isjumping or p.vy > 0 then
       p.vy = max(-5.5, p.vy*-1)
     else
@@ -230,7 +254,7 @@ function pixelcollision(obstacle)
   return false
 end
 
-
+spike_tile = 14--[[ put the actual tile number for the spike here ]]
 function _update()
   map_pattern -= screen_speed
   if map_pattern <-127 then map_pattern = 0 end
@@ -285,23 +309,19 @@ function _update()
     end
   end
   if not gameover and game_started then
-
     if framecount == 128 then
-      if spike_map_offset ==0 then
-        spike_map_offset = 8 
-      else
-        spike_map_offset = 0
-      end
+      show_new_pattern = true
+      normal_map.three = spike_map[flr(rnd(#spike_map))]
+      normal_map.four = spike_map[flr(rnd(#spike_map))]
     end
 
-    if framecount == 12 and spike_map_offset==8 then
-      spike_map_offset = 4
-    else
-      spike_map_offset = 0
-    end
-
-    if framecount >= 180 then
+    if framecount == 180 then
       addobstacle()
+    elseif framecount == 256 then
+      -- reset to the original pattern and add an obstacle
+      show_new_pattern = false
+      normal_map.three = 0
+      normal_map.four = 0
       framecount=0
     end
     if not gameover and (framecount%3==0) then 
@@ -329,17 +349,8 @@ function _update()
       del(obstacles, obstacles[1])
     end
   end
-
-  if #spikes > 0 then 
-    for spike in all(spikes) do
-      spike.x -= 2
-    end
-    if spikes[1].x < -9 then 
-      del(spikes, spikes[1])
-    end
-  end
   if p.isjumping then
-    if p.y > (floor_location+5) then
+    if p.y > (floor_location+3) then
       p.isjumping = false
       p.y = floor_location
       p.vy = 0
@@ -348,7 +359,36 @@ function _update()
       p.combo = 0
     end
   end
-  
+  if not gameover then 
+    if p.y == floor_location and pget(p.x+6,p.y+17) ==0 then
+      local maj = 0
+      local blk = 0
+      for i=6,12 do
+        if pget(p.x+i,p.y+17) == 4 then
+          maj += 1
+        else
+          blk += 1
+        end
+      end
+      gameover = maj < blk
+      if gameover then sfx(16) end
+    end
+  end 
+
+  if gameover then
+    if not (score == 0)then
+        hiscore = max(score,hiscore)
+        tmp_col = 2
+        if hiscore == score then
+            tmp_col = 3
+        end
+        print("score:"..score,20,0,7)
+        print_layered_text(hiscore,99, 0,tmp_col)
+        print_layered_text("hiscore:",65, 0, 2)
+        print_layered_text("game over!", 45, 88, 2)
+        print_layered_text("press 🅾️ to play", 25, 100, 2)
+    end
+  end
   if collision_cooldown > 0 then
     collision_cooldown -= 1
   end
