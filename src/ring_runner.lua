@@ -14,6 +14,7 @@ springcolors = {
   green = {11,3,6},
   yellow = {10,4,9},
 }
+
 floor_location = 95
 map_pattern = 0
 spike_map_offset = 0
@@ -24,7 +25,6 @@ screen_speed = 2
 collision_cooldown = 0
 donut_bread = 43
 init_spring_tile = 49
-
 
 
 function addobstacle()
@@ -78,7 +78,7 @@ function main_menu()
   print_layered_text("press ❎ to start", 35, 90, 2)
 end
 
-spike_map = {0, 8, 16, 24, 26, 32}
+spike_map = {0, 8, 16, 24, 32} --26 is good too but should only come after a certain point
 normal_map = {
   one=0, 
   two=0,
@@ -264,7 +264,7 @@ function _update()
     p.isjumping = true
     p.vy = -3
   end
-
+  
   if p.isjumping then
     p.y += p.vy
     if p.rotspeed >= 0 and not(btn(⬅️) or btn(➡️)) then
@@ -276,12 +276,12 @@ function _update()
 
     if btn(⬅️) then
       -- begin orienting yourself the other way
-      p.rotspeed -= 2
+      p.rotspeed -= 3
       p.rotspeed = max(p.rotspeed, -12)
       p.justpressedtilt = true
     end
     if btn(➡️) then
-      p.rotspeed += 2
+      p.rotspeed += 3
       p.rotspeed = min(p.rotspeed, 12)
       p.justpressedtilt = true
     end
@@ -304,6 +304,8 @@ function _update()
   end
   if game_started and gameover then
     if btnp(❎) then
+      normal_map.four = 0
+      normal_map.three = 0
       game_setup()
       addobstacle()
     end
@@ -354,7 +356,7 @@ function _update()
       p.isjumping = false
       p.y = floor_location
       p.vy = 0
-      p.rotspeed = 7 + flr(score/300)
+      p.rotspeed = 7
       if p.combo > 2 then score += p.combo * 10 end
       p.combo = 0
     end
