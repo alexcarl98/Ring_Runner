@@ -86,3 +86,28 @@ function pixelcollision(obstacle)
   return false
 end
 ```
+
+Decent idea of how bouncing works when the `p.vy` down equals the `p.vy` going up (before, we had a `p.vy*-1.15` multiplier. I think that makes it feel a little awkward): 
+```lua 
+function addobstacle()
+  local colors = 1
+  if p.s == 3 then
+    colors = 2
+  elseif p.s == 5 then
+    colors = 3
+  elseif p.s == 7 then
+    colors = 4
+  end
+
+  -- Picks random color
+  rgb = (init_spring_tile + flr(rnd(colors)))
+  x_spawn = 128
+  x_adders_no_downward_force = {55,60,65,70}
+  for i = 1, #x_adders_no_downward_force do
+    obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = rgb, bouncing = false, harmful = false}
+    x_spawn += x_adders_no_downward_force[i]
+  end
+  obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = rgb, bouncing = false, harmful = false}
+end
+
+```

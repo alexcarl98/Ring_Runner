@@ -1,5 +1,4 @@
 -- sprite work : kicked-in-teeth
-
 -- todo: 
 --  create tutorial sequence
 --  store spring color patterns as tables, then switch to using a single sprite tile for the springs
@@ -17,6 +16,7 @@ springcolors = {
 }
 floor_location = 95
 map_pattern = 0
+spike_map_offset = 0
 game_started = false
 gameover = false
 framecount = 0
@@ -24,10 +24,13 @@ screen_speed = 2
 collision_cooldown = 0
 donut_bread = 43
 init_spring_tile = 49
-
-function addspikes()
-  spikes[#spikes+1] = {x = 136, y=112, tile = 14}
-end
+spike_map = {0, 8, 16, 24, 26, 32}
+normal_map = {
+  one=0, 
+  two=0,
+  three=0,
+  four = 0,
+}
 
 
 function addobstacle()
@@ -41,26 +44,14 @@ function addobstacle()
   end
 
   rgb = (init_spring_tile + flr(rnd(colors)))
-  if (flr(rnd(2)) % 2) == 0 and score > 100 then
-    if (p.isjumping and p.combo > 3) then 
-      -- adds really high spring (for combos)
-      obstacles[#obstacles+1] = {x = 120, y = 88, width = 4, height = 4, color = rgb, bouncing = false}
-      obstacles[#obstacles+1] = {x = 120, y = 96, width = 4, height = 4, color = 29, bouncing = false}
-      return
-    end
-    -- adds moderatly high spring
-    obstacles[#obstacles+1] = {x = 128, y = 96, width = 4, height = 4, color = rgb, bouncing = false}
-    obstacles[#obstacles+1] = {x = 128, y = 104, width = 4, height = 4, color = 29, bouncing = false}
-    return
+
+  x_spawn = 128 
+  x_adders_no_downward_force = {55,60,65,70}
+  for i = 1, #x_adders_no_downward_force do
+    obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = rgb, bouncing = false, harmful = false}
+    x_spawn += x_adders_no_downward_force[i]
   end
-  -- adds normal height spring
-  obstacles[#obstacles+1] = {x = 128, y = 104, width = 4, height = 4, color = rgb, bouncing = false}
-  
-  if (flr(rnd(3)) % 2) == 0 then
-    -- adds a spring slightly after it 
-    -- obstacles[#obstacles+1] = {x = 188, y = 104, width = 4, height = 4, color = (8 + flr(rnd(colors))) + (flr(rnd(4))*16)}
-    obstacles[#obstacles+1] = {x = 188, y = 104, width = 4, height = 4, color = (init_spring_tile + flr(rnd(colors))), bouncing = false}
-  end
+  obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = rgb, bouncing = false, harmful = false}
 end
 
 function _init()
@@ -77,13 +68,12 @@ function game_setup()
   p.y = floor_location
   p.vy = 0
   p.a = 0
-  p.s = 3
+  p.s = 1
   p.combo = 0
   p.rotspeed = 7
   p.isjumping = false
   p.justpressedtilt = false
 end
-
 
 function main_menu()
   print_layered_text("ring runner", 40, 20,2)
@@ -95,6 +85,7 @@ function main_menu()
 end
 
 
+
 function _draw()
   cls()
   map(0,0,map_pattern,0,16,16)
@@ -103,19 +94,18 @@ function _draw()
   cursor(0,0)
   
   if not game_started then
-    spr_r(43,p.x-2,p.y,p.a,2,2)   --ユか♪た:draw()
-    spr_r(p.s,p.x,p.y,p.a,2,2)    --ユか♪た:draw()
+    spr_r(43,p.x-2,p.y,p.a,2,2)   --:draw()
+    spr_r(p.s,p.x,p.y,p.a,2,2)    --:draw()
     main_menu()
   end
   
   if not gameover and game_started then
     print("score:"..score,20,0,7)
-    -- print(score,0,0,7)
     if p.combo > 2 then
       print("streak: "..p.combo, 70, 0, 9)
     end
-    spr_r(43,p.x-2,p.y,p.a,2,2)    --ユか♪た:draw()
-    spr_r(p.s,p.x,p.y,p.a,2,2)    --ユか♪た:draw()
+    spr_r(43,p.x-2,p.y,p.a,2,2)    --:draw()
+    spr_r(p.s,p.x,p.y,p.a,2,2)    --:draw()
   end
   
   for obstacle in all(obstacles) do
@@ -133,9 +123,6 @@ function _draw()
     end
   end
 
-  for spike in all(spikes) do
-    spr(spike.tile, spike.x, spike.y)
-  end
   if gameover then
     if not (score == 0)then
         hiscore = max(score,hiscore)
@@ -208,12 +195,6 @@ function pixelcollision(obstacle)
       end
     end
   end
-  -- printh("")
-  -- printh("boxcolor: "..obstaclepixelcolor)
-  -- printh("top:"..colstrs[1])
-  -- printh("left:"..colstrs[2])
-  -- printh("right:"..colstrs[3])
-  -- if matching == 0 and nonmatching == 0 then
   if (not p.isjumping and p.x+8 > obstacle.x+1 and nonmatching > matching) then 
     collision_cooldown = 12
     return false
@@ -222,23 +203,17 @@ function pixelcollision(obstacle)
   else
     collision_cooldown = 6
   end
-  -- printh("matching: "..matching)
-  -- -- printh("nonmatching: "..nonmatching)
-  -- extcmd("screen")
   if p.s > 5 then 
     nonmatching -= 2
   end
   if matching > nonmatching then
     obstacle.bouncing = true
 
-    if p.isjumping or p.vy > 0 then 
-      p.vy = max(-5.5, p.vy*-1.15)
-      -- printh("jumpingtruep.vy:"..p.vy)
+    if p.isjumping or p.vy > 0 then
+      p.vy = max(-5.5, p.vy*-1)
     else
-      -- printh("p.vy:"..p.vy)
       p.isjumping = true
       p.vy = -3
-      p.y -= 3
     end
     -- incremental noise
     if p.combo < 5 then
@@ -310,11 +285,23 @@ function _update()
     end
   end
   if not gameover and game_started then
-    if framecount >= 60 then
-      addobstacle()
-      if (flr(rnd(2)) % 2) == 0 then 
-        addspikes()
+
+    if framecount == 128 then
+      if spike_map_offset ==0 then
+        spike_map_offset = 8 
+      else
+        spike_map_offset = 0
       end
+    end
+
+    if framecount == 12 and spike_map_offset==8 then
+      spike_map_offset = 4
+    else
+      spike_map_offset = 0
+    end
+
+    if framecount >= 180 then
+      addobstacle()
       framecount=0
     end
     if not gameover and (framecount%3==0) then 
