@@ -43,18 +43,21 @@ function addobstacle()
   rgb = (init_spring_tile + flr(rnd(colors)))
   if (flr(rnd(2)) % 2) == 0 and score > 100 then
     if (p.isjumping and p.combo > 3) then 
+      -- adds really high spring (for combos)
       obstacles[#obstacles+1] = {x = 120, y = 88, width = 4, height = 4, color = rgb, bouncing = false}
       obstacles[#obstacles+1] = {x = 120, y = 96, width = 4, height = 4, color = 29, bouncing = false}
       return
     end
+    -- adds moderatly high spring
     obstacles[#obstacles+1] = {x = 128, y = 96, width = 4, height = 4, color = rgb, bouncing = false}
     obstacles[#obstacles+1] = {x = 128, y = 104, width = 4, height = 4, color = 29, bouncing = false}
     return
   end
-
+  -- adds normal height spring
   obstacles[#obstacles+1] = {x = 128, y = 104, width = 4, height = 4, color = rgb, bouncing = false}
   
   if (flr(rnd(3)) % 2) == 0 then
+    -- adds a spring slightly after it 
     -- obstacles[#obstacles+1] = {x = 188, y = 104, width = 4, height = 4, color = (8 + flr(rnd(colors))) + (flr(rnd(4))*16)}
     obstacles[#obstacles+1] = {x = 188, y = 104, width = 4, height = 4, color = (init_spring_tile + flr(rnd(colors))), bouncing = false}
   end

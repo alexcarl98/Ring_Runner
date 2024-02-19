@@ -4,7 +4,6 @@
 
 Ring Runner is a fast paced, reflex based, 2D endless runner where the player is a donut rolling on a track. They interact with obstacles where player’s movements in response determine the game outcome.
 
-
 ## Playtest Rules and Parameters
 
 ### The Win Condition
