@@ -8,6 +8,7 @@ obstacles = {}
 spikes = {}
 floor = {}
 score = 0
+start_col = 1
 springcolors = {
   red = {8,2,14},
   blue = {12,1,13},
@@ -42,10 +43,10 @@ function addobstacle()
   x_spawn = 128 
   x_adders_no_downward_force = {55,60,65,70}
   for i = 1, #x_adders_no_downward_force do
-    obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = rgb, bouncing = false, harmful = false}
+    obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = (init_spring_tile + flr(rnd(colors))), bouncing = false, harmful = false}
     x_spawn += x_adders_no_downward_force[i]
   end
-  obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = rgb, bouncing = false, harmful = false}
+  obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = (init_spring_tile + flr(rnd(colors))), bouncing = false, harmful = false}
 end
 
 function _init()
@@ -62,7 +63,7 @@ function game_setup()
   p.y = floor_location
   p.vy = 0
   p.a = 0
-  p.s = 1
+  p.s = start_col
   p.combo = 0
   p.rotspeed = 7
   p.isjumping = false
@@ -295,6 +296,13 @@ function _update()
     
   end
   if not game_started and not gameover then
+    if btnp(🅾️) and start_col < 7 then 
+      start_col += 2
+      p.s += 2
+    elseif btnp(🅾️) then
+      start_col = 1
+      p.s += 1
+    end
     if btnp(❎) then
       game_started = true
       game_setup()
@@ -313,7 +321,6 @@ function _update()
       normal_map.three = spike_map[flr(rnd(#spike_map))]
       normal_map.four = spike_map[flr(rnd(#spike_map))]
     end
-
     if framecount == 180 then
       addobstacle()
     elseif framecount == 256 then
@@ -334,7 +341,7 @@ function _update()
         sfx(14)
         p.s = 3
         obstacles = {}
-      end 
+      end
     end
   end
   if #obstacles > 0 then
