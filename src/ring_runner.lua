@@ -37,9 +37,7 @@ function addobstacle()
   elseif p.s == 7 then
     colors = 4
   end
-
-  rgb = (init_spring_tile + flr(rnd(colors)))
-
+  -- rgb = (init_spring_tile + flr(rnd(colors)))
   x_spawn = 128 
   x_adders_no_downward_force = {55,60,65,70}
   for i = 1, #x_adders_no_downward_force do
@@ -87,27 +85,27 @@ normal_map = {
   four = 0,
 }
 show_new_pattern = false
-tmpy = 80
+tmpy = 80 + (8*4)
 function _draw()
   cls()
   
   if show_new_pattern then
     if framecount > 192 then
-     map(normal_map.three,10,map_pattern,tmpy,8,16)
-     map(normal_map.four,10,map_pattern+64,tmpy,8,16)
-     map(normal_map.one,10,map_pattern+128,tmpy,8,16)
-     map(normal_map.two,10,map_pattern+192,tmpy,8,16)
+     map(normal_map.three,14,map_pattern,tmpy,8,16)
+     map(normal_map.four,14,map_pattern+64,tmpy,8,16)
+     map(normal_map.one,14,map_pattern+128,tmpy,8,16)
+     map(normal_map.two,14,map_pattern+192,tmpy,8,16)
     else
-     map(normal_map.one,10,map_pattern,tmpy,8,16)
-     map(normal_map.two,10,map_pattern+64,tmpy,8,16)
-     map(normal_map.three,10,map_pattern+128,tmpy,8,16)
-     map(normal_map.four,10,map_pattern+192,tmpy,8,16)
+     map(normal_map.one,14,map_pattern,tmpy,8,16)
+     map(normal_map.two,14,map_pattern+64,tmpy,8,16)
+     map(normal_map.three,14,map_pattern+128,tmpy,8,16)
+     map(normal_map.four,14,map_pattern+192,tmpy,8,16)
     end 
    else
     -- draw the current map pattern
     for i=0,2 do 
-      map(normal_map.one,10,map_pattern+(i*128),tmpy,8,16)
-      map(normal_map.two,10,map_pattern+(i*128)+64,tmpy,8,16)
+      map(normal_map.one,14,map_pattern+(i*128),tmpy,8,16)
+      map(normal_map.two,14,map_pattern+(i*128)+64,tmpy,8,16)
     end
    end
   cursor(0,0)
@@ -209,7 +207,6 @@ function pixelcollision(obstacle)
       add(colors, pget(ob_pix.x-1, ob_pix.y+adder))
       add(colors, pget(ob_pix.x+7, ob_pix.y+adder))
     end
-    
     for i, col in ipairs(colors) do -- corrected iteration over colors
       if col ~= 0 and col ~= 4 and col ~=9 then
         if col == obstaclepixelcolor then
@@ -296,12 +293,12 @@ function _update()
     
   end
   if not game_started and not gameover then
-    if btnp(🅾️) and start_col < 7 then 
+    if btnp(🅾️) and start_col < 6 then 
       start_col += 2
       p.s += 2
     elseif btnp(🅾️) then
       start_col = 1
-      p.s += 1
+      p.s = 1
     end
     if btnp(❎) then
       game_started = true
@@ -328,7 +325,7 @@ function _update()
       show_new_pattern = false
       normal_map.three = 0
       normal_map.four = 0
-      framecount=0
+      framecount = 0
     end
     if not gameover and (framecount%3==0) then 
       score += 1

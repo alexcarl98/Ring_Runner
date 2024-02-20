@@ -15,29 +15,35 @@ The player is a donut rolling on a track. While rolling on the ground, the playe
 ### Obstacles and Objects
 The player must evade obstacles and survive for as long as possible:
 - **Springs** Jumping on springs with the same color as donuts icing will give the player an extra jump
-- **Spikes** If you land on a spike, you die. 
+- **Spikes** If you land on a spike, you die.
 - **NOT YET IMPLEMENTED-Ramps** Rolling down a ramp will speed the player up and give them some air time. 
 - **NOT YET IMPLEMENTED-Platforms** can jump onto platforms with springs. Platforms and ramps go hand in hand.
 - **NOT YET IMPLEMENTED-Coins** Thinking of having coins to help guide the player
 
 ## What Happened During the Playtest
-After some adjustments, I had a friend of mine (who never played it before) try it out with the new controls. It seems like they were able to grasp it fairly well. I also started the game out with a single color donut, rather than the dual colored donut. 
+After some adjustments, I had a friend of mine (who never played it before) try it out with the new controls. It seems like they were able to grasp it fairly well. I also started the game out with a single color donut, rather than the dual colored donut, that seemed to help get the player's accustomed to the controls.
+- *Idea*: maybe instead of having the tutorial, I will make the players have to use the controls of tilting somewhere before they actually would need it.
 
 
 ### What was working? 
-I think I'm going to stick with the new controls for now. The spikes were also starting to work
+We're still going to keep the existing controls, they seem to be more intuitive.
+I also got the spikes to start working, they aren't super great but they work.
 
 ### What is not working as I intend it (Challenges to be solved?) 
-
+Needed:
+- I need to make a more robust system for generating springs in relation to spikes.   
+- Have yet to implement the ramps
+- Have yet to implement the platforms to jump onto
+- Have yet to implement the platforms to jump onto
+Wanted:
+- Have yet to implement a coin system
+- Still want to add Parallax scrolling
 
 ### What will I try next? 
-I'm going to have some other people playtest the game. 
-- I think I might take out the rule where you need to land and orient yourself to match the spring color. I might keep something color based (i.e. you need to have the color to actually jump on the spring) but I'll make the colors collectable throughout the level. I'll make te 
-- Still need to add the logic for spikes. 
-- Considering adding coins. This might help guide the player especially in the tutorial phases so that they can get a better sense of how they should move.
-- I'm thinking about having some new springs. Some white springs that you can jump on anytime. rather than starting out red, you start out white, the red springs will be introduced later.
+- i'm going to make a more robust system for generating spikes, I think I'll also 
+- I want to work on expanding on the points system, I'll look at something like tetris in how it scores it's points based on it's moves. 
 
 ## Playtest Picture
-![playtest_picture](20240218_ring_runner.png)
+![playtest_picture](20240219_ring_runner.png)
 
 
