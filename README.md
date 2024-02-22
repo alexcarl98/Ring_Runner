@@ -1,5 +1,6 @@
 ### Game Design Document (GDD) for Ring Runner
 ---
+
 ![alt_text](docs\img\20240218_ring_runner.png)
 
 # Table of Contents
