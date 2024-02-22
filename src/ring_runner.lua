@@ -256,7 +256,7 @@ function _update()
   if bg_map_pattern <-127 then bg_map_pattern = 0 end
   framecount += 1
 
-  if ((btnp(⬆️) or btnp(🅾️)) and not p.isjumping) then
+  if ((btnp(⬆️)) and not p.isjumping) then
     p.isjumping = true
     p.vy = -3
   end
@@ -292,13 +292,13 @@ function _update()
   end
   if not game_started and not gameover then
     -- Uncomment to debug multiple colors
-    -- if btnp(🅾️) and start_col < 6 then 
-    --   start_col += 2
-    --   p.s += 2
-    -- elseif btnp(🅾️) then
-    --   start_col = 1
-    --   p.s = 1
-    -- end
+    if btnp(🅾️) and start_col < 6 then 
+      start_col += 2
+      p.s += 2
+    elseif btnp(🅾️) then
+      start_col = 1
+      p.s = 1
+    end
     
     if btnp(❎) then
       game_started = true

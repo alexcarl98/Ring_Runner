@@ -1,6 +1,6 @@
 # 2-19-24 Entry
 ## Summary
-*Two Sentences: What your game is. What are your design values. This should be your elevator pitch.*
+<!-- *Two Sentences: What your game is. What are your design values. This should be your elevator pitch.* -->
 
 Ring Runner is a fast paced, reflex based, 2D endless runner where the player is a donut rolling on a track. They interact with obstacles where player’s movements in response determine the game outcome.
 
@@ -45,6 +45,6 @@ Wanted:
 - Add a more robust Spike/spring generation system.
 
 ## Playtest Picture
-![alt_text](img/20240221_ring_runner.png "Picture")
+![alt_text](img\20240221_ring_runner.png "Picture")
 
 

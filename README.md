@@ -3,7 +3,7 @@
 
 ![alt_text](docs/img/20240218_ring_runner.png)
 
-# Table of Contents
+### Table of Contents
 - [Ring Runner](#ring-runner)
   - [1.0 Summary](#10-summary)
   - [2.0 Game Overview](#20-game-overview)
@@ -74,21 +74,31 @@ By incorporating these elements, Ring Runner sets itself apart from other games 
 
 ## 3.0 Objects/Components
 <!-- In this section you would break down the objects of your game that need to be detailed out. For example, if your game is a card game you would detail the cards here.  Or if it was a board game maybe you would have a section showing the board layout and considerations for the board we need to keep in mind, as well as maybe one for the player tokens etc. -->
+- C - Complete
+- IP - In Progress
+- NYI - Not yet Implemented
+#### 3.1 Player
+- **Donut (IP)**: The central character of the game is a whimsically animated donut. As it moves, the donut exhibits a rolling motion that mimics real-world physics, enhancing the game's immersion. The donut's ability to jump is crucial for navigating obstacles. Future enhancements may include customizable skins or effects that players can unlock, adding a personal touch and encouraging continued play to collect these variations.
 
-**DONUT**
-**SPIKES**
-**ICING POWER-UP**
+#### 3.2 Obstacles
+- **Spikes (IP)**: Spikes present a lethal challenge to players. They are designed with a visually sharp appearance to be easily identifiable as a hazard. Spikes will be placed strategically across the course to challenge players' timing and precision in jumping.
+  
+- **Spike Walls (NYI)**: Intended as moving or stationary barriers adorned with spikes, these walls will require players to either stop, change direction, or find a path over or around them. Their implementation will add a layer of complexity to the gameplay, offering new challenges and diversifying the obstacle set.
 
+#### 3.3 Helpful Objects
+- **Springs**: Bouncing on a spring will make a *\*Boing\** sound, but bouncing on several in a row will result in a cute little noise (this signals to the player they have succeeded in their streak)
+  - **Match Springs (IP)**: Springs that match the color of the player's donut will provide a significant bounce, propelling the player forward or upward. The mechanic of forcing oneself downward to achieve a bigger bounce introduces an additional skill element, rewarding timing and precision with enhanced mobility. 
 
-### 3.1 
+  - **Safe Springs (NYI)**: These springs, distinguishable by their unique color or design, offer a safe bounce regardless of the player's color. They will serve as a strategic element, especially in sections with a high density of obstacles, providing a temporary reprieve or assisting in difficult jumps.
+- **Ramps (NYI)**: Ramps will accelerate the player upon contact, launching them into the air. The design will consider different angles and lengths to provide varying levels of momentum and challenge. Ramps can be used to introduce aerial segments, adding variety to the gameplay and offering players new ways to navigate levels.
+
+#### 3.4 Collectibles
+- **Super Icing (NYI)**: This power-up temporarily transforms the player's donut into a white color, allowing it to interact with any spring regardless of its color. The Super Icing will be a rare collectible, visually distinct to stand out to the player. Its temporary nature and strategic advantage will encourage players to make the most of its effects, adding a layer of tactical decision-making to the game.
 
 ## 4.0 Gameplay
 <!-- In this section you would start going through all the considerations in the flow of your gameplay. Consider: What can the player do? Are their turns? What can players do on their turns? This is probably going to be the meatiest section of your GDD and should cover how the game is supposed to run, and potential edge cases. -->
-
-
-
-### 4.1 [An example section about Player’s Turns]
-<!-- On a player’s turn they can take one of three following actions: 
+<!--### 4.1 Players Moves
+ On a player’s turn they can take one of three following actions: 
 - d.	Discard Cards and Draw up to their Hand Limit
   Here is where I would describe what it means to discard (Players can add cards to the discard deck.) I also mentioned a Hand Limit…what is that? How many cards is in the hand limit? Is that something I should put in the components section?  
 - e.	Play a Pair
@@ -96,12 +106,37 @@ By incorporating these elements, Ring Runner sets itself apart from other games 
 - f.	Trade Cards with an Opponent
   You get the gist of it now, right? (Unfortunately, yes GDDs require detail!) Usually when I am writing a GDD I do a lot of hopping around between sections. I might move info from the gameplay section into the components section or vice versa.*
 -->
+### 4.1 Players Moves
+In "Ring Runner," the player has a dynamic set of moves to navigate through the game's challenges. These moves are designed to provide a satisfying and responsive control scheme that rewards skill and timing.
+
+- **Ground Move**
+  - **Jump (⬆️ or 🅾️)**: When on the ground, the player can press the up arrow or the circle button to make the donut jump. This move is crucial for avoiding ground obstacles like spikes and for reaching Match Springs.
+
+- **Mid-air Moves**
+  - **Tilt Backwards (⬅️)**: While in the air, pressing left allows the player to tilt backwards. This move can adjust the landing position, crucial for aligning with the correct color on Match Springs or avoiding mid-air obstacles.
+  - **Tilt Forwards (➡️)**: Pressing right tilts the player forwards, offering similar strategic adjustments as tilting backwards but in the opposite direction.
+  - **Fast Fall (⬇️)**: Increases the player's downward velocity, allowing for quicker descents. This move is useful for rapid adjustments or to quickly reach the ground for the next jump.
+
+- **Streak Bonus**: Successfully jumping on consecutive springs without missing increases the player's streak count, which in turn extends the window of time available for executing Mid-air Moves. This mechanic rewards precision and consistency with enhanced control and maneuverability.
+
+### 4.2 Obstacle Mechanics
+Obstacles in "Ring Runner" are designed to test the player's reflexes, precision, and strategic use of their moves.
+- **Spikes** : Touchings spikes results in a player death / gameover. The death animation includes a harsh noiseplayer will bouncing up in the air (but won't be able to move) as they 
+  - **Spike Pit**: Encountering spikes results in an instant game over, emphasizing the need for careful navigation.
+  - **Spike Walls**: These stationary or moving walls covered in spikes add a layer of complexity, requiring timely jumps or mid-air maneuvers to avoid. 
+- **Match Springs**: Color-coded springs that require the player to match their color to bounce. Incorrect matches lead to failed jumps, adding a strategic layer to the gameplay.
+- **Safe Springs**: These springs allow a bounce regardless of color, providing strategic points of relief in the game's courses.
+
+### 4.3 Point System
+The point system in "Ring Runner" rewards survival time and skillful play.
+
+- **Survival Points**: Points are accumulated over time, with the rate slowing down as the game progresses. This mechanic ensures that the game remains challenging and that players must strive to survive as long as possible to achieve high scores.
+- **Streak Bonuses**: Consecutive successful jumps on Match Springs without failing or hitting obstacles grant bonus points, incentivizing skillful and precise gameplay. The sound associated with jumpin on spikes also changes as the streak increases. They start as silly spring sounds, but will turn into positive (almost coin like) sounds as the player continues. 
+- **Collectibles**: Gathering Super Icing or other collectibles can provide point bonuses, adding an element of exploration and risk-reward to the game.
+
 
 ## 5.0 Questions and Additional Ideas
 <!-- This is a kind of free-from section that I include in a lot of my personal project documentation. It’s useful for projects that are ongoing with a living doc, or things that need to be tested out.  -->
-
-
-
 ### 5.1 Questions
 <!-- In this section I like to identify any questions I have about my design or that I will need to answer to execute my design. When I am working on the doc sometimes I will jot little footnotes down here that need to be included in a section (ie What do players do if they run out of cards?) This reminds me to get that edge case detailed up.  -->
 
@@ -109,23 +144,10 @@ By incorporating these elements, Ring Runner sets itself apart from other games 
 <!-- This is where I jot down ideas I might want to explore with this game/system in the future. This is only useful if I am using this doc on an ongoing basis, and I plan to come back to it and make edits. -->
 
 #### Difficulty settings:
-- As of now, we have a difficult setting where the player gains more colors as the game progresses. I may include a selector for this difficulty setting
+- As of now, we have a difficult setting where the player gains more colors as the game progresses. I may include a selector for this difficulty setting on the title screen. (i.e. if players want to start with more colors from the start they can do so).
 
-#### Levels:
-- i'm considering adding other levels to the game, with different backgrounds, floor tiles, and difficulties to them.  
-
-#### Game Setup: 
-I may introduce springs in a different way: 
-- Instead of starting the game with the player as one color, start them as two colors.
-- Have a white spring that players may jump on regardless of color. 
-- have patterns of mostly white springs, with one colored spring in the mix
-- slowly increase the number of red, blue, (and eventually green, and yellow) springs as the game progresses and make the white springs less common. 
-
-#### Power-ups:
-- Include a power-up where the player turns entirely white in their icing and may jump on any spring whatsoever. 
-- Use Icing colors as power-ups/health. the more icing collected, the more springs they could jump on, but when they get hurt, they lose the color that touches the spike and get downgraded. 
-
-#### Game Goals / Story:
+#### Game Goals / Levels:
+- i'm considering adding other levels to the game, with different backgrounds, floor tiles, and difficulties to them. 
 - I may decide to change the goal of the game (this would build on the level Part) alongside the endless run mode I may include a story mode in which case, here is the story: You're a donut and your want to be eaten. You're rolling through a series of obstacles and crazy environments in the hopes that you roll into the mouth that eats you. 
 
 ## 6.0 Appendix
