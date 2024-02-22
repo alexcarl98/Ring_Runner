@@ -17,11 +17,13 @@ springcolors = {
 }
 floor_location = 95
 map_pattern = 0
+bg_map_pattern = 0
 spike_map_offset = 0
 game_started = false
 gameover = false
 framecount = 0
 screen_speed = 2
+bg_screen_speed = 1
 collision_cooldown = 0
 donut_bread = 43
 init_spring_tile = 49
@@ -70,14 +72,15 @@ end
 
 function main_menu()
   print_layered_text("ring runner", 40, 20,2)
-  print_layered_text("on-ground moves: ⬆️-jump", 10, 40,2)
+  print_layered_text("on-ground moves: ⬆️ or 🅾️-jump", 10, 40,2)
   print_layered_text("mid-air moves:", 8, 55, 2)
   print_layered_text("⬅️,➡️-tilt", 70, 55,2)
   print_layered_text("⬇️-fall", 70, 70,2)
   print_layered_text("press ❎ to start", 35, 90, 2)
+  -- print_layered_text("press 🅾️ to change difficulty", 35, 110, 2)
 end
 
-spike_map = {0, 8, 16, 24, 32}
+spike_map = {0, 8, 16, 24}
 normal_map = {
   one=0, 
   two=0,
@@ -86,11 +89,12 @@ normal_map = {
 }
 show_new_pattern = false
 tmpy = 80 + (8*4)
+
 function _draw()
   cls()
   --make this part go slower than... 
-  map(0,0,map_pattern,0,16,10)
-  map(0,0,map_pattern+128,0,16,10)
+  map(0,0,bg_map_pattern,0,16,10)
+  map(0,0,bg_map_pattern+128,0,16,10)
   
   -- all of this stuff down here
   if show_new_pattern then
@@ -113,31 +117,19 @@ function _draw()
     end
    end
   cursor(0,0)
-  -- print(pget(p.x, p.y+17))
-  -- pset(p.x, p.y+17,12)
-  -- local player_cell_x = flr(p.x / 8)+1
-  -- Convert player's y-coordinate from pixels to map cells and check one tile below
-  -- local player_cell_y_below = flr((p.y + 16) / 8)+1
   
   if not game_started then
     spr_r(43,p.x-2,p.y,p.a,2,2)   --:draw()
     spr_r(p.s,p.x,p.y,p.a,2,2)    --:draw()
     main_menu()
   end
-  -- print("game over:",0,20,12)
-  -- print(gameover, 40,20,12)
   
   if not gameover and game_started then
     print("score:"..score,20,0,7)
     if p.combo > 2 then
       print("streak: "..p.combo, 70, 0, 9)
     end
-    -- shx = flr(p.x/8)
-    -- shy = flr((p.y+24)/8)
-    -- print("p.x:"..shx,0,30,7)
-    -- print("p.y:"..shy,0,40,7)
-    -- print("mget():"..mget(shx,shy),0,50,8)
-    
+
     spr_r(43,p.x-2,p.y,p.a,2,2)    --:draw()
     spr_r(p.s,p.x,p.y,p.a,2,2)    --:draw()
   end
@@ -260,9 +252,11 @@ spike_tile = 14--[[ put the actual tile number for the spike here ]]
 function _update()
   map_pattern -= screen_speed
   if map_pattern <-127 then map_pattern = 0 end
+  if framecount%2==0 then bg_map_pattern -= bg_screen_speed end
+  if bg_map_pattern <-127 then bg_map_pattern = 0 end
   framecount += 1
 
-  if ((btnp(⬆️)) and not p.isjumping) then
+  if ((btnp(⬆️) or btnp(🅾️)) and not p.isjumping) then
     p.isjumping = true
     p.vy = -3
   end
@@ -270,7 +264,7 @@ function _update()
   if p.isjumping then
     p.y += p.vy
     if p.rotspeed >= 0 and not(btn(⬅️) or btn(➡️)) then
-      p.rotspeed -= 0.1
+      p.rotspeed -= 0.5
       if p.rotspeed < 0 then
         p.rotspeed = 0
       end
@@ -297,13 +291,14 @@ function _update()
     
   end
   if not game_started and not gameover then
-    if btnp(🅾️) and start_col < 6 then 
-      start_col += 2
-      p.s += 2
-    elseif btnp(🅾️) then
-      start_col = 1
-      p.s = 1
-    end
+    -- Uncomment to debug multiple colors
+    -- if btnp(🅾️) and start_col < 6 then 
+    --   start_col += 2
+    --   p.s += 2
+    -- elseif btnp(🅾️) then
+    --   start_col = 1
+    --   p.s = 1
+    -- end
     
     if btnp(❎) then
       game_started = true
