@@ -77,7 +77,7 @@ function main_menu()
   print_layered_text("press ❎ to start", 35, 90, 2)
 end
 
-spike_map = {0, 8, 16, 24, 26, 32}
+spike_map = {0, 8, 16, 24, 32}
 normal_map = {
   one=0, 
   two=0,
@@ -88,7 +88,11 @@ show_new_pattern = false
 tmpy = 80 + (8*4)
 function _draw()
   cls()
+  --make this part go slower than... 
+  map(0,0,map_pattern,0,16,10)
+  map(0,0,map_pattern+128,0,16,10)
   
+  -- all of this stuff down here
   if show_new_pattern then
     if framecount > 192 then
      map(normal_map.three,14,map_pattern,tmpy,8,16)
@@ -300,6 +304,7 @@ function _update()
       start_col = 1
       p.s = 1
     end
+    
     if btnp(❎) then
       game_started = true
       game_setup()
@@ -327,14 +332,19 @@ function _update()
       normal_map.four = 0
       framecount = 0
     end
-    if not gameover and (framecount%3==0) then 
+    if not gameover and (framecount%(9-p.s)==0) then 
       score += 1
-      if p.s == 3 and score > 2000 then
+      if p.s == 5 and score > 3250 then
+        sfx(14)
+        p.s = 7
+        obstacles = {}
+      end 
+      if p.s == 3 and 3250 > score and score > 2000 then
         sfx(14)
         p.s = 5
         obstacles = {}
       end
-      if p.s == 1 and 2000 > score and  score > 1000 then
+      if p.s == 1 and 2000 > score and  score > 750 then
         sfx(14)
         p.s = 3
         obstacles = {}
