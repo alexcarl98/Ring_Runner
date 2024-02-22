@@ -73,7 +73,7 @@ By incorporating these elements, Ring Runner sets itself apart from other games 
 ![alt_text](docs/img/GameFlowChart.png "Picture")
 
 ## 3.0 Objects/Components
-*In this section you would break down the objects of your game that need to be detailed out. For example, if your game is a card game you would detail the cards here.  Or if it was a board game maybe you would have a section showing the board layout and considerations for the board we need to keep in mind, as well as maybe one for the player tokens etc.*
+<!-- In this section you would break down the objects of your game that need to be detailed out. For example, if your game is a card game you would detail the cards here.  Or if it was a board game maybe you would have a section showing the board layout and considerations for the board we need to keep in mind, as well as maybe one for the player tokens etc. -->
 
 **DONUT**
 **SPIKES**
@@ -83,7 +83,7 @@ By incorporating these elements, Ring Runner sets itself apart from other games 
 ### 3.1 
 
 ## 4.0 Gameplay
-*In this section you would start going through all the considerations in the flow of your gameplay. Consider: What can the player do? Are their turns? What can players do on their turns? This is probably going to be the meatiest section of your GDD and should cover how the game is supposed to run, and potential edge cases.*
+<!-- In this section you would start going through all the considerations in the flow of your gameplay. Consider: What can the player do? Are their turns? What can players do on their turns? This is probably going to be the meatiest section of your GDD and should cover how the game is supposed to run, and potential edge cases. -->
 
 
 
@@ -98,36 +98,36 @@ By incorporating these elements, Ring Runner sets itself apart from other games 
 -->
 
 ## 5.0 Questions and Additional Ideas
-*This is a kind of free-from section that I include in a lot of my personal project documentation. It’s useful for projects that are ongoing with a living doc, or things that need to be tested out.*  
+<!-- This is a kind of free-from section that I include in a lot of my personal project documentation. It’s useful for projects that are ongoing with a living doc, or things that need to be tested out.  -->
 
 
 
 ### 5.1 Questions
-*In this section I like to identify any questions I have about my design or that I will need to answer to execute my design. When I am working on the doc sometimes I will jot little footnotes down here that need to be included in a section (ie What do players do if they run out of cards?) This reminds me to get that edge case detailed up.* 
+<!-- In this section I like to identify any questions I have about my design or that I will need to answer to execute my design. When I am working on the doc sometimes I will jot little footnotes down here that need to be included in a section (ie What do players do if they run out of cards?) This reminds me to get that edge case detailed up.  -->
 
 ### 5.2 Additional ideas.
-*This is where I jot down ideas I might want to explore with this game/system in the future. This is only useful if I am using this doc on an ongoing basis, and I plan to come back to it and make edits.*
+<!-- This is where I jot down ideas I might want to explore with this game/system in the future. This is only useful if I am using this doc on an ongoing basis, and I plan to come back to it and make edits. -->
 
-### Difficulty settings:
+#### Difficulty settings:
 - As of now, we have a difficult setting where the player gains more colors as the game progresses. I may include a selector for this difficulty setting
 
-### Levels:
+#### Levels:
 - i'm considering adding other levels to the game, with different backgrounds, floor tiles, and difficulties to them.  
 
-### Game Setup: 
+#### Game Setup: 
 I may introduce springs in a different way: 
 - Instead of starting the game with the player as one color, start them as two colors.
 - Have a white spring that players may jump on regardless of color. 
 - have patterns of mostly white springs, with one colored spring in the mix
 - slowly increase the number of red, blue, (and eventually green, and yellow) springs as the game progresses and make the white springs less common. 
 
-### Power-ups:
+#### Power-ups:
 - Include a power-up where the player turns entirely white in their icing and may jump on any spring whatsoever. 
 - Use Icing colors as power-ups/health. the more icing collected, the more springs they could jump on, but when they get hurt, they lose the color that touches the spike and get downgraded. 
 
-### Game Goals:
+#### Game Goals / Story:
 - I may decide to change the goal of the game (this would build on the level Part) alongside the endless run mode I may include a story mode in which case, here is the story: You're a donut and your want to be eaten. You're rolling through a series of obstacles and crazy environments in the hopes that you roll into the mouth that eats you. 
 
 ## 6.0 Appendix
 ### References
-*This section is for linking other relative documentation or resources needed.*
+<!-- This section is for linking other relative documentation or resources needed. -->
