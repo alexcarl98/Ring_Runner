@@ -1,3 +1,166 @@
+---
+PLAYTESTS
+---
+
+# 2-7-24 Entry
+## Summary
+Wheelin’ is a fast paced, reflex based, 2D endless runner where the player is a color wheel rolling on a track. They interact with obstacles depending on how the player can match the wheel’s colors with that obstacle.
+
+## Playtest Rules and Parameters
+### The Win Condition
+- The game is endless, so you win by getting a higher score than the previously highest score. 
+
+### Actions
+The player is a rolling wheel
+If the wheel is rolling on the ground:
+- Player can jump with the circle button
+
+If the wheel is in the air:
+
+- Player can tilt forward with the ‘→’ button
+
+- Player can tilt backwards with the ‘←’ button
+
+- Player can force themselves back down with the ‘↓’ button
+
+### Obstacles and Objects
+Players can orient themselves so that if their color matches the obstacle color, they bounce on it. Otherwise, they die
+
+## What Happened During the Playtest
+### What was working?
+I got the bouncing mechanics to work, I also got the wheel to spin correctly. The obstacles show up in random order. The game keeps track of the score reasonably well. 
+
+### What is not working as I intend it (Challenges to be solved?) 
+I think I assumed because there were very few mechanics (only 4 buttons), that it would be simple to demonstrate. This gave me the idea to include a title screen demonstrating the controls so that players can figure out how to move before they play the game.
+
+### What will I try next? 
+I need to add speed variance
+
+## Playtest Picture
+![playtest_picture](img/image_45238312121707348318797.png)
+
+---
+# 2-11-24 Entry
+## Summary
+Wheelin’ is a fast paced, reflex based, 2D endless runner where the player is a color wheel rolling on a track. They interact with obstacles depending on how the player can match the wheel’s colors with that obstacle.
+
+## Playtest Rules and Parameters
+
+### The Win Condition
+The game is endless, so you win by getting a higher score than the previously highest score.
+
+### Actions
+The player is a rolling wheel
+If the wheel is rolling on the ground:
+- Player can jump with the circle button
+
+If the wheel is in the air:
+
+- Player can tilt forward with the ‘→’ button
+
+- Player can tilt backwards with the ‘←’ button
+
+- Player can force themselves back down with the ‘↓’ button
+
+### Obstacles and Objects
+There are a few objects the player may interact with: Springs, ramps, platforms, spike walls, and spikes. The player’s color and how it they land the wheel onto the spring will determine whether they bounce
+
+## What Happened During the Playtest
+### What was working? 
+I got the multiple colors to be able to render on the wheel, I also was able to match these with the colored spring objects.
+
+### What is not working as I intend it (Challenges to be solved?)
+I have decided that the springs causing the player to die when the colors didn’t match is too abstract. Instead the players will just not bounce. For now, the player will instead have to navigate around spike hazards.
+
+### What will I try next? 
+I’m going to finish implementing the spike logic (i.e. map collisions). I’ll also need to change the logic for the ramps. I also think I might try out something where if the player is hurt by a spike, they lose the color that touched the spike instead of dying. this is a punishment since they will not be able to jump on those color springs. But I’m thinking of making the colors as a power up object too.
+
+<!-- ## Playtest Picture -->
+<!-- ![playtest_picture](img/.png) -->
+
+---
+# 2-12-24 Entry
+
+## Summary
+Wheelin’ is a fast paced, reflex based, 2D endless runner where the player is a donut rolling on a track. They interact with obstacles where player’s movements in response determine the game outcome.
+
+## Playtest Rules and Parameters
+### The Win Condition
+The game is endless, so you win by getting a higher score than the previously highest score.
+
+### Actions
+The player is a rolling wheel
+If the wheel is rolling on the ground:
+- Player can jump with the circle button
+
+If the wheel is in the air:
+- Player can tilt forward with the ‘→’ button
+
+- Player can tilt backwards with the ‘←’ button
+
+- Player can force themselves back down with the ‘↓’ button
+
+### Obstacles and Objects
+There are a few objects the player may interact with: Springs, ramps, platforms, spike walls, and spikes. The player’s  color and how they land the wheel onto the spring will determine whether they bounce or they die.
+
+## What Happened During the Playtest
+### What was working? 
+I think the bounce physics after some tweaking have become better than before. They felt more responsive this time compared to previous play tests.
+
+### What is not working as I intend it (Challenges to be solved?) 
+The aesthetics were originally too bland and non-intuitive, changing these was a better idea.
+
+### What will I try next? 
+I want to try and implement a background with some parallax scrolling and some platforms
+
+<!-- ## Playtest Picture -->
+<!-- ![playtest_picture](img/.png) -->
+
+---
+# 2-14-24 Entry
+## Summary
+Wheelin’ is a fast paced, reflex based, 2D endless runner where the player is a donut rolling on a track. They interact with obstacles where player’s movements in response determine the game outcome.
+
+## Playtest Rules and Parameters
+### The Win Condition
+The game is endless, so you win by getting a higher score than the previously highest score.
+
+### Actions
+The player is a rolling donut
+
+If the donut is rolling on the ground:
+
+- Player can jump with the circle button
+
+If the donut is in the air:
+
+- Player can tilt forward with the ‘→’ button
+
+- Player can tilt backwards with the ‘←’ button
+
+- Player can force themselves back down with the ‘↓’ button
+
+### Obstacles and Objects
+There are a few objects the player may interact with: Springs, ramps, platforms, spike walls, and spikes. The player’s icing color and how it they land the donut onto the spring will determine whether they bounce
+
+## What Happened During the Playtest
+### What was working? 
+I decided to change the aesthetic of the game. I think the donut character is more likable than the original abstract wheel. and springs as an object to jump on are more intuitive than colored squares.
+
+### What is not working as I intend it (Challenges to be solved?) 
+I have decided that the springs causing the player to die when the colors didn’t match is too abstract. Instead the players will just not bounce. For now, the player will instead have to navigate around spike hazards.
+
+
+### What will I try next? 
+I’m going to finish implementing the spike logic (i.e. map collisions). I’ll also need to change the logic for the ramps. I also think I might try out something where if the player is hurt by a spike, they lose the color that touched the spike instead of dying. this is a punishment since they will not be able to jump on those color springs. But I’m thinking of making the colors as a power up object too.
+
+
+## Playtest Picture
+![playtest_picture](img/playtest4.png)
+
+---
+
+
 # 2-18-24 Entry
 ## Summary
 *Two Sentences: What your game is. What are your design values. This should be your elevator pitch.*
@@ -143,7 +306,7 @@ Wanted:
 - Add a more robust Spike/spring generation system.
 
 ## Playtest Picture
-![alt_text](img\20240221_ring_runner.png "Picture")
+![alt_text](img/20240221_ring_runner.png "Picture")
 
 
 
