@@ -26,27 +26,38 @@ screen_speed = 2
 bg_screen_speed = 1
 collision_cooldown = 0
 donut_bread = 43
-init_spring_tile = 49
+init_spring_tile = 48
 
 
 
 function addobstacle()
   local colors = 1
-  if p.s == 3 then
-    colors = 2
-  elseif p.s == 5 then
-    colors = 3
-  elseif p.s == 7 then
-    colors = 4
+  if score > 150 then
+    if p.s == 3 then
+      colors = 2
+    elseif p.s == 5 then
+      colors = 3
+    elseif p.s == 7 then
+      colors = 4
+    end
   end
+  colors += 1
   -- rgb = (init_spring_tile + flr(rnd(colors)))
   x_spawn = 128 
   x_adders_no_downward_force = {55,60,65,70}
   for i = 1, #x_adders_no_downward_force do
-    obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = (init_spring_tile + flr(rnd(colors))), bouncing = false, harmful = false}
+    obstacles[#obstacles+1] = {
+      x = x_spawn, 
+      y = 104,
+      width = 4, 
+      height = 4, 
+      color = (init_spring_tile + flr(rnd(colors))), 
+      spring = 53,
+      bouncing = false,
+      harmful = false}
     x_spawn += x_adders_no_downward_force[i]
   end
-  obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = (init_spring_tile + flr(rnd(colors))), bouncing = false, harmful = false}
+  obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = (init_spring_tile + flr(rnd(colors))), spring = 53, bouncing = false, harmful = false}
 end
 
 function _init()
@@ -135,6 +146,7 @@ function _draw()
   end
   
   for obstacle in all(obstacles) do
+    spr(obstacle.spring, obstacle.x, obstacle.y+2)
     if obstacle.bouncing then
       -- assume t is your global time or frame count variable
       local amplitude = 2 -- max height of spring compression/expansion
@@ -189,19 +201,23 @@ end
 
 function pixelcollision(obstacle)
   if obstacle.color == 29 then return false end
-  if obstacle.color == 48 then return true end
+  if obstacle.color == 48 then 
+    obstacle.bouncing = true
+    player_spring_bounce() 
+    return true 
+  end `
   if ((obstacle.y == 96) and not p.isjumping) then return false end
   local ob_pix = {x=obstacle.x, y = obstacle.y}
-  local obstaclepixelcolor = pget(ob_pix.x, ob_pix.y)
+  local obstaclepixelcolor = pget(obstacle.x, obstacle.y)
   --debugging
   local matching = 0
   local nonmatching = 0
 
-  for adder = 0, 7 do
-    local colors = {pget(ob_pix.x-1+adder, ob_pix.y-1)}
+  for adder = 0, 9 do
+    local colors = {pget(obstacle.x-3+adder, obstacle.y-1)}
     if adder < 4 then 
-      add(colors, pget(ob_pix.x-1, ob_pix.y+adder))
-      add(colors, pget(ob_pix.x+7, ob_pix.y+adder))
+      add(colors, pget(obstacle.x-1, obstacle.y+adder))
+      add(colors, pget(obstacle.x+7, obstacle.y+adder))
     end
     for i, col in ipairs(colors) do -- corrected iteration over colors
       if col ~= 0 and col ~= 4 and col ~=9 then
@@ -214,32 +230,18 @@ function pixelcollision(obstacle)
     end
   end
 
-  if (not p.isjumping and p.x+8 > obstacle.x+1 and nonmatching > matching) then 
+  if (not p.isjumping and p.x+4 > obstacle.x+1 and nonmatching > matching) then 
     collision_cooldown = 12
     return false
   elseif matching == 0 then
     return false
-  else
-    collision_cooldown = 6
   end
   if p.s > 5 then 
     nonmatching -= 2
   end
   if matching > nonmatching then
     obstacle.bouncing = true
-    if p.isjumping or p.vy > 0 then
-      p.vy = max(-5.5, p.vy*-1)
-    else
-      p.isjumping = true
-      p.vy = -3
-    end
-    -- incremental noise
-    if p.combo < 5 then
-      sfx(p.combo)
-    else
-      sfx(4)
-    end
-    p.combo += 1
+    player_spring_bounce()
     return false
   elseif matching <= nonmatching then 
     collision_cooldown = 14
@@ -247,6 +249,24 @@ function pixelcollision(obstacle)
   end
   return false
 end
+
+function player_spring_bounce() 
+  collision_cooldown = 6
+  if p.isjumping or p.vy > 0 then
+    p.vy = max(-5.5, p.vy*-1)
+  else
+    p.isjumping = true
+    p.vy = -3
+  end
+  -- incremental noise
+  if p.combo < 5 then
+    sfx(p.combo)
+  else
+    sfx(4)
+  end
+  p.combo += 1
+end
+
 
 spike_tile = 14--[[ put the actual tile number for the spike here ]]
 function _update()
@@ -265,9 +285,7 @@ function _update()
     p.y += p.vy
     if p.rotspeed >= 0 and not(btn(⬅️) or btn(➡️)) then
       p.rotspeed -= 0.5
-      if p.rotspeed < 0 then
-        p.rotspeed = 0
-      end
+      if p.rotspeed < 0 then p.rotspeed = 0 end
     end
     if btn(⬅️) then
       -- begin orienting yourself the other way
@@ -357,15 +375,13 @@ function _update()
       del(obstacles, obstacles[1])
     end
   end
-  if p.isjumping then
-    if p.y > (floor_location+3) then
-      p.isjumping = false
-      p.y = floor_location
-      p.vy = 0
-      p.rotspeed = 7 + flr(score/300)
-      if p.combo > 2 then score += p.combo * 10 end
-      p.combo = 0
-    end
+  if p.isjumping and p.y > (floor_location+3) then
+    p.isjumping = false
+    p.y = floor_location
+    p.vy = 0
+    p.rotspeed = 7
+    if p.combo > 2 then score += p.combo * (p.s*3) end
+    p.combo = 0
   end
   if not gameover then 
     if p.y == floor_location and pget(p.x+6,p.y+17) ==0 then

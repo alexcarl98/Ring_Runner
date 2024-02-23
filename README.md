@@ -1,7 +1,8 @@
 ### Game Design Document (GDD) for Ring Runner
 ---
 
-![alt_text](docs/img/20240218_ring_runner.png)
+<img src="docs/img/20240218_ring_runner.png" alt="drawing" width="250"/>
+
 
 ### Table of Contents
 - [1.0 Summary](#10-summary)
@@ -55,14 +56,7 @@ By combining these core design values, Ring Runner strives to offer a compelling
 
 ### 2.1 References
 <!-- What games are similar to your game? What are you referencing in your designs? You can use your competitive research homework here. Competitive research helps you as the designer know what you are going for, as well as for anyone reading your doc. If they are familiar with the game, you are referencing this immediately clues them in to what you want to do. -->
-Ring Runner draws inspiration from a blend of classic and modern games, combining elements of rapid gameplay, precise control demands, and unique thematic settings to create an engaging experience. Two primary references stand out in the development and conceptualization of Ring Runner:
-Reformatted with a focus on the similarities and differences between "Ring Runner" and its inspirational sources, including an expanded section on "Jetpack Joyride":
-
-## 2.0 Game Overview
-
-### 2.1 References
-
-"Ring Runner" takes inspiration from several iconic games, blending aspects of their gameplay, aesthetics, and mechanics to create a unique endless runner experience on the PICO-8 platform.
+Ring Runner draws inspiration from a blend of classic and modern games, combining elements of rapid gameplay, precise control demands, and unique thematic settings to create an engaging experience. Three primary references stand out in the development and conceptualization of Ring Runner:
 
 #### Geometry Dash
 - **Similarities**: Both games are side-scrolling runners that emphasize precise timing and reflexes. They share a minimalistic aesthetic that focuses on the gameplay experience without overly complex visuals.
@@ -99,9 +93,9 @@ By incorporating these elements, Ring Runner sets itself apart from other games 
 - IP - In Progress
 - NYI - Not yet Implemented
 #### 3.1 Player
-![alt_text](docs\img\donut_player.png)
+![alt_text](docs/img/donut_player.png)
 - **Donut (IP)**: The central character of the game is a whimsically animated donut. As it moves, the donut exhibits a rolling motion that mimics real-world physics, enhancing the game's immersion. The donut's ability to jump is crucial for navigating obstacles. Future enhancements may include customizable skins or effects that players can unlock, adding a personal touch and encouraging continued play to collect these variations.
-![alt_text](docs\img\DonutDiagram.png)
+![alt_text](docs/img/DonutDiagram.png)
 - Technical Attributes:
   - `p.x, p.y`: Player's x and y coordinates
   - `p.vy` : Player's downward velocity
@@ -114,11 +108,11 @@ By incorporating these elements, Ring Runner sets itself apart from other games 
 
 
 #### 3.2 Obstacles
-![alt_text](docs\img\spike_pit.png)
+![alt_text](docs/img/spike_pit.png)
 - **Spikes (IP)**: Spikes present a lethal challenge to players. They are designed with a visually sharp appearance to be easily identifiable as a hazard. Spikes will be placed strategically across the course to challenge players' timing and precision in jumping.
-![alt_text](docs\img\SpikeDiagram.png)
+![alt_text](docs/img/SpikeDiagram.png)
 
-![alt_text](docs\img\spike_wall.png)
+![alt_text](docs/img/spike_wall.png)
 - **Spike Walls (NYI)**: Intended as moving or stationary barriers adorned with spikes, these walls will require players to either stop, change direction, or find a path over or around them. Their implementation will add a layer of complexity to the gameplay, offering new challenges and diversifying the obstacle set.
 
 - Technical Attributes: Spikes continuously move across the screen and are technically fixed parts of the map that interacts with players.
@@ -126,11 +120,11 @@ By incorporating these elements, Ring Runner sets itself apart from other games 
 #### 3.3 Helpful Objects
 - **Springs**: Bouncing on a spring will make a *\*Boing\** sound, but bouncing on several in a row will result in a cute little noise (this signals to the player they have succeeded in their streak). This also corresponds to a `bouncing` boolean attribute that will begin to move the spring up and down
   
-  ![alt_text](docs\img\col_springs.png)
+  ![alt_text](docs/img/col_springs.png)
   
   - **Match Springs (IP)**: Springs that match the color of the player's donut will provide a significant bounce, propelling the player forward or upward. The mechanic of forcing oneself downward to achieve a bigger bounce introduces an additional skill element, rewarding timing and precision with enhanced mobility. 
 
-  ![alt_text](docs\img\safe_spring.png)
+  ![alt_text](docs/img/safe_spring.png)
   
   - **Safe Springs (NYI)**: These springs, distinguishable by their unique color or design, offer a safe bounce regardless of the player's color. They will serve as a strategic element, especially in sections with a high density of obstacles, providing a temporary reprieve or assisting in difficult jumps.
 
@@ -140,7 +134,7 @@ Spring Technical Attributes:
   - `color` - (misnomer) corresponds to the sprite tile
   - `bouncing` - bouncing obstacle
 
-![alt_text](docs\img\ramp.png)
+![alt_text](docs/img/ramp.png)
 - **Ramps (NYI)**: Ramps will accelerate the player upon contact, launching them into the air. The design will consider different angles and lengths to provide varying levels of momentum and challenge. Ramps can be used to introduce aerial segments, adding variety to the gameplay and offering players new ways to navigate levels.
 
 #### 3.4 Collectibles
