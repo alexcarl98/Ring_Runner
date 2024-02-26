@@ -12,6 +12,7 @@ luac.out
 *.ko
 *.obj
 *.elf
+*.DS_Store
 
 # Precompiled Headers
 *.gch

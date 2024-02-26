@@ -8,7 +8,7 @@ obstacles = {}
 spikes = {}
 floor = {}
 score = 0
-start_col = 1
+start_col = 3
 springcolors = {
   red = {8,2,14},
   blue = {12,1,13},
@@ -33,15 +33,17 @@ init_spring_tile = 48
 function addobstacle()
   local colors = 1
   if score > 150 then
-    if p.s == 3 then
-      colors = 2
-    elseif p.s == 5 then
-      colors = 3
-    elseif p.s == 7 then
-      colors = 4
+    colors += 1
+    if score > 300 then
+      if p.s == 3 then
+        colors = 3
+      elseif p.s == 5 then
+        colors = 4
+      elseif p.s == 7 then
+        colors = 5
+      end
     end
   end
-  colors += 1
   -- rgb = (init_spring_tile + flr(rnd(colors)))
   x_spawn = 128 
   x_adders_no_downward_force = {55,60,65,70}
@@ -205,7 +207,7 @@ function pixelcollision(obstacle)
     obstacle.bouncing = true
     player_spring_bounce() 
     return true 
-  end `
+  end
   if ((obstacle.y == 96) and not p.isjumping) then return false end
   local ob_pix = {x=obstacle.x, y = obstacle.y}
   local obstaclepixelcolor = pget(obstacle.x, obstacle.y)
