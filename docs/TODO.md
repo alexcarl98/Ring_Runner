@@ -158,3 +158,38 @@ function _update()
   --other code...
 end
 ```
+
+Implementing pallette swapping: 
+```lua
+
+function _draw()
+	cls()
+	spr(1,8,8)
+
+	-- pal({[6]=8,[13]=2})
+	-- spr(1,24,8)
+	-- pal()
+
+	-- pal({[6]=11,[13]=3})
+	-- spr(1,40,8)
+	-- pal()
+
+	-- pal({[6]=12,[13]=1})
+	-- spr(1,56,8)
+	-- pal()
+
+  cols = {
+    {8,2},
+    {12,1},
+    {11,3},
+    {10,4}
+    }
+
+  for i=1,#cols do
+    pal({[6]=i[1],[13]=i[2]})
+    spr(1,8*(i+1),8)
+    pal()
+  end
+
+end
+```

@@ -126,7 +126,7 @@ By incorporating these elements, Ring Runner sets itself apart from other games 
 
   ![alt_text](docs/img/safe_spring.png)
   
-  - **Safe Springs (NYI)**: These springs, distinguishable by their unique color or design, offer a safe bounce regardless of the player's color. They will serve as a strategic element, especially in sections with a high density of obstacles, providing a temporary reprieve or assisting in difficult jumps.
+  - **Safe Springs (IP)**: These springs, distinguishable by their unique color or design, offer a safe bounce regardless of the player's color. They will serve as a strategic element, especially in sections with a high density of obstacles, providing a temporary reprieve or assisting in difficult jumps.
 
 Spring Technical Attributes:
   - `x, y` - coordinates 

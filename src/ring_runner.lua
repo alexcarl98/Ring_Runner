@@ -1,3 +1,5 @@
+-- ring runner
+-- author: alex alvarez
 -- sprite work : kicked-in-teeth
 -- todo: 
 --  create tutorial sequence
@@ -26,8 +28,29 @@ screen_speed = 2
 bg_screen_speed = 1
 collision_cooldown = 0
 donut_bread = 43
-init_spring_tile = 48
+init_spring_tile = 49
+max_jump = 5.9
+cols = {
+  {6,13},   --gray spring
+  {8,2},    --red spring
+  {12,1},   --blue spring
+  {11,3},   -- green spring
+  {10,4}    -- yellow spring
+}
 
+-- function drawsprings(c,x,y)
+--   spring_sprite = 48
+--   cols = {
+--     {6,13},   --gray spring
+--     {8,2},    --red spring
+--     {12,1},   --blue spring
+--     {11,3},   -- green spring
+--     {10,4}    -- yellow spring
+--   }
+--   pal({[6] = cols[c][1], [13]= cols[c][2]})
+--   spr(spring_sprite, x, y)
+--   pal()
+-- end
 
 
 function addobstacle()
@@ -49,17 +72,27 @@ function addobstacle()
   x_adders_no_downward_force = {55,60,65,70}
   for i = 1, #x_adders_no_downward_force do
     obstacles[#obstacles+1] = {
-      x = x_spawn, 
-      y = 104,
-      width = 4, 
-      height = 4, 
-      color = (init_spring_tile + flr(rnd(colors))), 
+      x = x_spawn, y = 104, 
+      width = 4, height = 4,
+      -- color = (init_spring_tile + flr(rnd(colors))), 
+      color = (1 + flr(rnd(colors))), 
       spring = 53,
       bouncing = false,
-      harmful = false}
+      harmful = false
+    }
     x_spawn += x_adders_no_downward_force[i]
   end
-  obstacles[#obstacles+1] = {x = x_spawn, y = 104, width = 4, height = 4, color = (init_spring_tile + flr(rnd(colors))), spring = 53, bouncing = false, harmful = false}
+  obstacles[#obstacles+1] = {
+    x = x_spawn, 
+    y = 104, 
+    width = 4, 
+    height = 4, 
+    -- color = (init_spring_tile + flr(rnd(colors))), 
+    color = (1 + flr(rnd(colors))), 
+    spring = 53, 
+    bouncing = false, 
+    harmful = false
+  }
 end
 
 function _init()
@@ -148,19 +181,18 @@ function _draw()
   end
   
   for obstacle in all(obstacles) do
-    spr(obstacle.spring, obstacle.x, obstacle.y+2)
+    pal({[6] = cols[obstacle.color][1], [13]= cols[obstacle.color][2]})
+    spr(obstacle.spring, obstacle.x+2, obstacle.y+2)
+    local height_variation = 0
     if obstacle.bouncing then
       -- assume t is your global time or frame count variable
       local amplitude = 2 -- max height of spring compression/expansion
       local frequency = 0.2 -- controls the speed of the animation
-      local height_variation = sin(framecount * frequency) * amplitude
-      
-      -- adjust obstacle.y based on height_variation for animation
-      -- this example assumes obstacle.y is the base position of the spring
-      spr(obstacle.color, obstacle.x, obstacle.y + height_variation)
-    else
-      spr(obstacle.color, obstacle.x, obstacle.y)
+      height_variation = sin(framecount * frequency) * amplitude
     end
+    spr(init_spring_tile, obstacle.x, obstacle.y+height_variation)
+    spr(init_spring_tile+1, obstacle.x+8, obstacle.y+height_variation)
+    pal()
   end
 
   if gameover then
@@ -189,7 +221,7 @@ function boxesoverlap(obstacle)
 
   local obstaclebox = {
     left = obstacle.x,
-    right = obstacle.x + 8,
+    right = obstacle.x + 12,
     top = obstacle.y,
     bottom = obstacle.y + 8
   }
@@ -203,7 +235,7 @@ end
 
 function pixelcollision(obstacle)
   if obstacle.color == 29 then return false end
-  if obstacle.color == 48 then 
+  if obstacle.color == 1 then 
     obstacle.bouncing = true
     player_spring_bounce() 
     return true 
@@ -215,11 +247,11 @@ function pixelcollision(obstacle)
   local matching = 0
   local nonmatching = 0
 
-  for adder = 0, 9 do
-    local colors = {pget(obstacle.x-3+adder, obstacle.y-1)}
+  for adder = 0, 11 do
+    local colors = {pget(obstacle.x-2+adder, obstacle.y-1)}
     if adder < 4 then 
       add(colors, pget(obstacle.x-1, obstacle.y+adder))
-      add(colors, pget(obstacle.x+7, obstacle.y+adder))
+      add(colors, pget(obstacle.x+12, obstacle.y+adder))
     end
     for i, col in ipairs(colors) do -- corrected iteration over colors
       if col ~= 0 and col ~= 4 and col ~=9 then
@@ -254,8 +286,9 @@ end
 
 function player_spring_bounce() 
   collision_cooldown = 6
+  p.y -= 3
   if p.isjumping or p.vy > 0 then
-    p.vy = max(-5.5, p.vy*-1)
+    p.vy = max(-max_jump, p.vy*-1)
   else
     p.isjumping = true
     p.vy = -3
@@ -307,27 +340,27 @@ function _update()
 
     if btn(⬇️) and collision_cooldown == 0 then p.vy +=0.7 end
     p.vy += 0.2
-    if p.vy > 5.5 then p.vy = 5.5 end
+    if p.vy > max_jump then p.vy = max_jump end
     
   end
   if not game_started and not gameover then
-    -- Uncomment to debug multiple colors
-    if btnp(🅾️) and start_col < 6 then 
+    -- uncomment to debug multiple colors
+    if btnp(4) and start_col < 6 then 
       start_col += 2
       p.s += 2
-    elseif btnp(🅾️) then
+    elseif btnp(4) then
       start_col = 1
       p.s = 1
     end
-    
-    if btnp(❎) then
+    --press x:5
+    if btnp(5) then
       game_started = true
       game_setup()
       addobstacle()
     end
   end
   if game_started and gameover then
-    if btnp(❎) then
+    if btnp(5) then
       game_setup()
       addobstacle()
     end
