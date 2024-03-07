@@ -4,19 +4,13 @@
 -- todo: 
 --  create tutorial sequence
 --  store spring color patterns as tables, then switch to using a single sprite tile for the springs
---  figure out how to get a slightly darker shade of green for the donut-
+--  figure out how to get a slightly darker shade of green for the donut
 p={}
 obstacles = {}
 spikes = {}
 floor = {}
 score = 0
 start_col = 3
-springcolors = {
-  red = {8,2,14},
-  blue = {12,1,13},
-  green = {11,3,6},
-  yellow = {10,4,9},
-}
 floor_location = 95
 map_pattern = 0
 bg_map_pattern = 0
@@ -38,20 +32,13 @@ cols = {
   {10,4}    -- yellow spring
 }
 
--- function drawsprings(c,x,y)
---   spring_sprite = 48
---   cols = {
---     {6,13},   --gray spring
---     {8,2},    --red spring
---     {12,1},   --blue spring
---     {11,3},   -- green spring
---     {10,4}    -- yellow spring
---   }
---   pal({[6] = cols[c][1], [13]= cols[c][2]})
---   spr(spring_sprite, x, y)
---   pal()
--- end
-
+spike_map = {0, 8, 16, 24}
+normal_map = {
+  one=0, 
+  two=0,
+  three=0,
+  four = 0,
+}
 
 function addobstacle()
   local colors = 1
@@ -69,10 +56,11 @@ function addobstacle()
   end
   -- rgb = (init_spring_tile + flr(rnd(colors)))
   x_spawn = 128 
+  y_spawn = 104
   x_adders_no_downward_force = {55,60,65,70}
   for i = 1, #x_adders_no_downward_force do
     obstacles[#obstacles+1] = {
-      x = x_spawn, y = 104, 
+      x = x_spawn, y = y_spawn, 
       width = 4, height = 4,
       -- color = (init_spring_tile + flr(rnd(colors))), 
       color = (1 + flr(rnd(colors))), 
@@ -84,7 +72,7 @@ function addobstacle()
   end
   obstacles[#obstacles+1] = {
     x = x_spawn, 
-    y = 104, 
+    y = y_spawn, 
     width = 4, 
     height = 4, 
     -- color = (init_spring_tile + flr(rnd(colors))), 
@@ -114,25 +102,36 @@ function game_setup()
   p.rotspeed = 7
   p.isjumping = false
   p.justpressedtilt = false
+  normal_map.one = 0
+  normal_map.two = 0
+  normal_map.three = 0
+  normal_map.four = 0
+  show_new_pattern = false
 end
 
 function main_menu()
-  print_layered_text("ring runner", 40, 20,2)
-  print_layered_text("on-ground moves: ⬆️ or 🅾️-jump", 10, 40,2)
-  print_layered_text("mid-air moves:", 8, 55, 2)
-  print_layered_text("⬅️,➡️-tilt", 70, 55,2)
-  print_layered_text("⬇️-fall", 70, 70,2)
-  print_layered_text("press ❎ to start", 35, 90, 2)
+  print_layered_text("ring runner", 40, 20, 2,7)
+  -- print_layered_text("on-ground moves: ⬆️ or 🅾️-jump", 10, 40,2)
+  xval = print_layered_text("on-ground moves:", 10, 40,2,7)
+  print("● ",xval-1, 41,9)
+  xval = print("● ",xval-1, 40,10)
+  print_layered_text(" -jump", xval-5, 40,2,7)
+
+  -- print_layered_text("on-ground moves: 🅾️-jump", 10, 40,2)
+  print_layered_text("mid-air moves:", 8, 55, 2,7)
+  print_layered_text("⬅️,➡️-tilt", 70, 55,2,7)
+  print_layered_text("⬇️-fall", 70, 70,2,7)
+  xval = print_layered_text("press ", 35, 90, 2,7)
+  print("● ",xval-1, 91,3)
+  xval = print("● ",xval-1, 90,11)
+  xval = print_layered_text("+", xval-5, 90, 2,7)
+  print("● ",xval-1, 91,9)
+  xval = print("● ",xval-1, 90,10)
+  print_layered_text("to start", xval, 90, 2,7)
   -- print_layered_text("press 🅾️ to change difficulty", 35, 110, 2)
 end
 
-spike_map = {0, 8, 16, 24}
-normal_map = {
-  one=0, 
-  two=0,
-  three=0,
-  four = 0,
-}
+
 show_new_pattern = false
 tmpy = 80 + (8*4)
 
@@ -203,20 +202,27 @@ function _draw()
             tmp_col = 3
         end
         print("score:"..score,20,0,7)
-        print_layered_text(hiscore,99, 0,tmp_col)
-        print_layered_text("hiscore:",65, 0, 2)
-        print_layered_text("game over!", 45, 88, 2)
-        print_layered_text("press ❎ to play", 25, 100, 2)
+        print_layered_text(hiscore,99, 0,tmp_col, 7)
+        print_layered_text("hiscore:",65, 0, 2, 7)
+        print_layered_text("game over!", 45, 88, 2, 7)
+        xval = print_layered_text("press ", 35, 100, 2,7)
+        print("● ",xval-1, 101,3)
+        xval = print("● ",xval-1, 100,11)
+        xval = print_layered_text("+", xval-5, 100, 2,7)
+        print("● ",xval-1, 101,9)
+        xval = print("● ",xval-1, 100,10)
+        print_layered_text("to play", xval, 100, 2,7)
+        
     end
   end
 end
 
 function boxesoverlap(obstacle)
   local playerbox = {
-    left = p.x+2,
-    right = p.x + 14, -- assuming the player is 16 pixels wide
-    top = p.y+2,
-    bottom = p.y + 14 -- assuming the player is 16 pixels tall
+    left = p.x+1,
+    right = p.x + 15, -- assuming the player is 16 pixels wide
+    top = p.y+1,
+    bottom = p.y + 15 -- assuming the player is 16 pixels tall
   }
 
   local obstaclebox = {
@@ -311,7 +317,7 @@ function _update()
   if bg_map_pattern <-127 then bg_map_pattern = 0 end
   framecount += 1
 
-  if ((btnp(⬆️)) and not p.isjumping) then
+  if ((btnp(🅾️)) and not p.isjumping) then
     p.isjumping = true
     p.vy = -3
   end
@@ -345,22 +351,22 @@ function _update()
   end
   if not game_started and not gameover then
     -- uncomment to debug multiple colors
-    if btnp(4) and start_col < 6 then 
-      start_col += 2
-      p.s += 2
-    elseif btnp(4) then
-      start_col = 1
-      p.s = 1
-    end
+    --if btnp(4) and start_col < 6 then 
+      --start_col += 2
+      --p.s += 2
+    --elseif btnp(4) then
+      --start_col = 1
+      --p.s = 1
+    --end
     --press x:5
-    if btnp(5) then
+    if btnp(5) and btnp(4) then
       game_started = true
       game_setup()
       addobstacle()
     end
   end
   if game_started and gameover then
-    if btnp(5) then
+    if btnp(5) and btnp(4) then
       game_setup()
       addobstacle()
     end
@@ -398,6 +404,10 @@ function _update()
         obstacles = {}
       end
     end
+  end
+  if gameover and framecount == 256 then
+    normal_map.three = 0
+    normal_map.four = 0
   end
   if #obstacles > 0 then
     if boxesoverlap(obstacles[1]) and (collision_cooldown == 0) then
@@ -442,10 +452,16 @@ function _update()
             tmp_col = 3
         end
         print("score:"..score,20,0,7)
-        print_layered_text(hiscore,99, 0,tmp_col)
-        print_layered_text("hiscore:",65, 0, 2)
-        print_layered_text("game over!", 45, 88, 2)
-        print_layered_text("press 🅾️ to play", 25, 100, 2)
+        print_layered_text(hiscore,99, 0,tmp_col, 7)
+        print_layered_text("hiscore:",65, 0, 2, 7)
+        print_layered_text("game over!", 45, 88, 2,7)
+        xval = print_layered_text("press", 25, 100, 2,7)
+        print("● ",xval-1, 91,3)
+        xval = print("● ",xval-1, 90,11)
+        xval = print_layered_text("+", xval-5, 90, 2,7)
+        print("● ",xval-1, 91,9)
+        xval = print("● ",xval-1, 90,10)
+        print_layered_text(" to play", 25, 100, 2,7)
     end
   end
   if collision_cooldown > 0 then
@@ -484,7 +500,7 @@ function spr_r(s,x,y,a,w,h)
   end
 end
 
-function print_layered_text(text, x, y,col)
+function print_layered_text(text, x, y,col, col2)
   print(text,x+1,y,col)
-  print(text,x,y,7)
+  return print(text,x,y,col2)
 end
